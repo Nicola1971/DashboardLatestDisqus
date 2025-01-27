@@ -1,24 +1,13 @@
 <?php
-/**
- * DashboardLatestDisqus
- * Latest Disqus Comments widget for EvoDashboard
- *
- * @author      Nicola Lambathakis http://www.tattoocms.it/
- * @category    plugin
- * @version    3.2.1
- * @license	   http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
- * @internal    @events OnManagerWelcomeHome,OnManagerWelcomePrerender
- * @internal    @installset base
- * @internal    @modx_category Dashboard
- * @documentation Requirements: This plugin requires Evolution 1.4 or later
- * @reportissues https://github.com/Nicola1971/
- * @link        
- * @lastupdate  29/12/2017
- * @internal    @properties &wdgVisibility=Show widget for:;menu;All,AdminOnly,AdminExcluded,ThisRoleOnly,ThisUserOnly;All &ThisRole=Show only to this role id:;string;;;enter the role id &ThisUser=Show only to this username:;string;;;enter the username &wdgTitle= Widget Title:;string;Latest Disqus Comments &wdgicon=widget icon:;string;fa-commenting-o &wdgposition=widget position:;list;1,2,3,4,5,6,7,8,9,10;1 &wdgsizex=widget width:;list;12,6,4,3;12 &DisqusDomain=Disqus domain name (ie: tattoocms):;string;tattoocms &DisqusApiKey=Disqus Public Key:;string;S95vswe6x8aXZRojcr5ZY9x0e4FNW48a1ZSfKMvUbEgc45kbzIxAN0llIb1mHwBq &num_items=Number of comments to show in the widget:;string;5
-*/
 
 /** credits: https://github.com/bachors/jQuery-disqus-widget/blob/master/index.html */
-global $modx;
+global $modx,$_lang;
+$ThisRole = $ThisRole ?? '';
+$ThisUser = $ThisUser ?? '';
+$HeadBG = isset($HeadBG) ? trim($HeadBG) : '';
+$HeadColor = isset($HeadColor) ? trim($HeadColor) : '';
+$BodyBG = isset($BodyBG) ? trim($BodyBG) : '';
+$BodyColor = isset($BodyColor) ? trim($BodyColor) : '';
 // get manager role
 $internalKey = $modx->getLoginUserID();
 $sid = $modx->sid;
@@ -37,16 +26,12 @@ else {
 $result = $modx->db->select('id', $this->getFullTableName("site_plugins"), "name='{$modx->event->activePlugin}' AND disabled=0");
 $pluginid = $modx->db->getValue($result);
 if($modx->hasPermission('edit_plugin')) {
-$button_pl_config = '<a data-toggle="tooltip" href="javascript:;" title="' . $_lang["settings_config"] . '" class="text-muted pull-right" onclick="parent.modx.popup({url:\''. MODX_MANAGER_URL.'?a=102&id='.$pluginid.'&tab=1\',title1:\'' . $_lang["settings_config"] . '\',icon:\'fa-cog\',iframe:\'iframe\',selector2:\'#tabConfig\',position:\'center center\',width:\'80%\',height:\'80%\',hide:0,hover:0,overlay:1,overlayclose:1})" ><i class="fa fa-cog fa-spin-hover" style="color:'.$HeadColor.';"></i> </a>';
+$button_pl_config = '<a data-toggle="tooltip" href="javascript:;" title="' . $_lang["settings_config"] . '" class="text-muted pull-right float-right" onclick="parent.modx.popup({url:\''. MODX_MANAGER_URL.'?a=102&id='.$pluginid.'&tab=1\',title1:\'' . $_lang["settings_config"] . '\',icon:\'fa-cog\',iframe:\'iframe\',selector2:\'#tabConfig\',position:\'center center\',width:\'80%\',height:\'80%\',hide:0,hover:0,overlay:1,overlayclose:1})" ><i class="fa fa-cog fa-spin-hover" style="color:'.$HeadColor.';"></i> </a>';
 }
 $modx->setPlaceholder('button_pl_config', $button_pl_config);
 //widget name
 $WidgetID = isset($WidgetID) ? $WidgetID : 'latest_disqus';
-// size and position
-$datarow = isset($datarow) ? $datarow : '1';
-$datacol = isset($datacol) ? $datacol : '2';
-$datasizex = isset($datasizex) ? $datasizex : '2';
-$datasizey = isset($datasizey) ? $datasizey : '2';
+
 //output
 $WidgetOutput = isset($WidgetOutput) ? $WidgetOutput : '';
 //events
@@ -56,7 +41,6 @@ $e = &$modx->Event;
 switch($e->name){
 case 'OnManagerWelcomePrerender':
 $jsinclude = '
-<script src="media/script/jquery/jquery.min.js"></script>
     <script>
 /*---------- Setting ----------------*/
 bcr_disqus(\''.$DisqusDomain.'\','.$num_items.',\''.$DisqusApiKey.'\');
@@ -79,7 +63,7 @@ function bcr_disqus(username,count,apikey) {
             html += \'</a>\';
             html += \'</div>\';
             html += \'<div class="post-container">\';
-            html += \'<a href=\' + data.response[i].author.profileUrl + \'" class="profile" target="_blank">\';
+            html += \'<a href="\' + data.response[i].author.profileUrl + \'" class="profile" target="_blank">\';
             html += \'<span class="profile">\' + data.response[i].author.name;
             html += \'</a>\';              
             html += \'<span class="buled" aria-hidden="true">•</span>\';
@@ -141,7 +125,7 @@ ul#komentar li a {
 $e->output($jsinclude.$cssOutput);
 break;
 case 'OnManagerWelcomeHome':
-			$widgets['test'] = array(
+			$widgets['DashboardLatestDisqus'] = array(
 				'menuindex' =>''.$wdgposition.'',
 				'id' => 'DashboardLatestDisqus'.$pluginid.'',
 				'cols' => 'col-md-'.$wdgsizex.'',
