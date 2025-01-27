@@ -10,6 +10,8 @@ Latest Disqus Comments widget for Evolution cms Dashboard
 
 This widget requires only the Public Key: just copy and paste in to the plugin configuration tab
 
+**more info and instructions**: https://www.tattoocms.it/extras/dashboard-widgets/dashboardlatestdisqus.html
+
 
 
 
