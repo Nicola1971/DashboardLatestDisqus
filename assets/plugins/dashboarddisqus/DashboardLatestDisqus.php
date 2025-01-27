@@ -8,6 +8,7 @@ $HeadBG = isset($HeadBG) ? trim($HeadBG) : '';
 $HeadColor = isset($HeadColor) ? trim($HeadColor) : '';
 $BodyBG = isset($BodyBG) ? trim($BodyBG) : '';
 $BodyColor = isset($BodyColor) ? trim($BodyColor) : '';
+$BodyHeight = isset($BodyHeight) ? trim($BodyHeight) : '200';
 // get manager role
 $internalKey = $modx->getLoginUserID();
 $sid = $modx->sid;
@@ -130,7 +131,7 @@ case 'OnManagerWelcomeHome':
 				'id' => 'DashboardLatestDisqus'.$pluginid.'',
 				'cols' => 'col-md-'.$wdgsizex.'',
                 'headAttr' => 'style="background-color:'.$HeadBG.'; color:'.$HeadColor.';"',
-				'bodyAttr' => 'style="background-color:'.$BodyBG.'; color:'.$BodyColor.';"',
+				'bodyAttr' => 'style="background-color:'.$BodyBG.'; color:'.$BodyColor.';; max-height:'.$BodyHeight.'px;overflow-y: scroll; padding:0;"',
 				'icon' => ''.$wdgicon.'',
 				'title' => ''.$wdgTitle.' '.$button_pl_config.'',
 				'body' => '<div class="widget-stage"><!--disqus -->
