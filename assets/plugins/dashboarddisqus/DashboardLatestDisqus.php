@@ -142,8 +142,8 @@ $e->output($jsinclude.$cssOutput);
 break;
 case 'OnManagerWelcomeHome':
 			$widgets['test'] = array(
-				'menuindex' =>'1',
-				'id' => 'DashboardStats'.$pluginid.'',
+				'menuindex' =>''.$wdgposition.'',
+				'id' => 'DashboardLatestDisqus'.$pluginid.'',
 				'cols' => 'col-md-'.$wdgsizex.'',
                 'headAttr' => 'style="background-color:'.$HeadBG.'; color:'.$HeadColor.';"',
 				'bodyAttr' => 'style="background-color:'.$BodyBG.'; color:'.$BodyColor.';"',
